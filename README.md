@@ -63,3 +63,60 @@ end
 ```shell
 $ bundle
 ```
+
+# kirk goes here
+
+# API Validations
+
+## Model Card
+
+### As a developer, I can add the appropriate model specs that will ensure an incomplete cat throws an error.
+
+```ruby
+# cat_spec.rb
+require 'rails_helper'
+
+RSpec.describe Cat, type: :model do
+    it "should validate name, age, enjoys, and image to be populated" do
+        cat = Cat.create
+        expect(cat.errors[:name]).to_not be_empty
+        expect(cat.errors[:age]).to_not be_empty
+        expect(cat.errors[:enjoys]).to_not be_empty
+        expect(cat.errors[:image]).to_not be_empty
+    end
+end
+```
+
+### As a developer, I can add the appropriate model validations to ensure the user submits a name, an age, what the cat enjoys, and an image.
+
+```ruby
+class Cat < ApplicationRecord
+    validates :name, :age, :enjoys, :image, presence: true
+end
+```
+
+### As a developer, I can add the appropriate model specs that will ensure a cat enjoys entry is at least 10 characters long.
+
+```ruby
+# spec/models/cat_spec.rb
+class Cat < ApplicationRecord
+    validates :name, :age, :enjoys, :image, presence: true
+    validates :enjoys, length: {minimum: 10}
+end
+```
+
+### As a developer, I can add a validation to assure that will ensure a cat enjoys entry is at least 10 characters long.
+
+```ruby
+# app/models/cat.rb
+    it "validates enjoys to be at least 10 characters" do
+        cat = Cat.create(enjoys:"123456789")
+        expect(cat.errors[:enjoys]).to_not be_empty
+    end
+```
+
+### As a developer, I can add the appropriate request validations to ensure the API is sending useful information to the frontend developer if a new cat is not valid.
+
+```ruby
+
+```
