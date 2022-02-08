@@ -52,12 +52,16 @@ RSpec.describe "Cats", type: :request do
     end
     it "validates updated cat information is correct" do
       Cat.create(cat_1)
-      max = Cat.first
+      felix = Cat.first
       new_cat_params = {cat: bad_cat_data}
-      patch "/cats/#{max.id}", params: new_cat_params
-      max.update(bad_cat_data)
+      patch "/cats/#{felix.id}", params: new_cat_params
+      felix.update(bad_cat_data)
       expect(response.status).to eq 422
       json = JSON.parse(response.body)
+      expect(json['name']).to include "can't be blank"
+      expect(json['age']).to include "can't be blank"
+      expect(json['enjoys']).to include "can't be blank"
+      expect(json['image']).to include "can't be blank"
     end
   end
   describe "DELETE /destroy" do
